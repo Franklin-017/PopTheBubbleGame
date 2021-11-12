@@ -1,12 +1,25 @@
 // Canvas setup
 const canvas = document.getElementById('canvas');
+const modal = document.getElementById('modal');
+const startButton = document.getElementById('startGameBtn');
+const scoreDisplay = document.getElementById('score');
+
 const ctx = canvas.getContext('2d');
 canvas.width = 800;
 canvas.height = 500;
 
 let score = 0;
 let gameFrame = 0;
+let timer = 61;
+let animationId;
+
 ctx.font = '50px Georgia';
+
+startButton.addEventListener('click', () => {
+  animate();
+  startTime();
+  modal.style.display = 'none';
+})
 
 // Mouse Interactivity
 let canvasePosition = canvas.getBoundingClientRect();
@@ -41,10 +54,10 @@ class Player {
     const dy = this.y - mouse.y;
 
     if(mouse.x != this.x) {
-      this.x -= dx/20;
+      this.x -= dx/10;
     }
     if(mouse.y != this.y) {
-      this.y -= dy/20;
+      this.y -= dy/10;
     }
   }
   draw() {
@@ -55,7 +68,7 @@ class Player {
       ctx.lineTo(mouse.x, mouse.y);
       ctx.stroke();
     }
-    ctx.fillStyle = 'red';
+    ctx.fillStyle = '#e2590a';
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
     ctx.fill();
@@ -84,9 +97,11 @@ class Bubble {
     this.distance = Math.sqrt(dx*dx + dy*dy);
   }
   draw() {
-    ctx.fillStyle = 'blue';
+    ctx.fillStyle = '#62a8e69d';
+    ctx.strokeStyle = 'black';
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.stroke();
     ctx.fill();
     ctx.closePath();
     ctx.stroke();
@@ -118,7 +133,7 @@ function handleBubbles() {
         } else {
           bubblePop2.play();
         }
-        score++;
+        score += (1 * Math.floor(bubblesArray[i].speed));
         bubblesArray[i].counted = true;
         bubblesArray.splice(i, 1);
       }
@@ -131,10 +146,23 @@ function animate() {
   handleBubbles();
   player.update();
   player.draw();
-  ctx.fillStyle = 'black';
+  ctx.fillStyle = '#ddddd8d7';
   ctx.fillText('score: '+ score, 10, 50);
+  ctx.fillStyle = '#ddddd8d7';
+  ctx.fillText('Time: '+ timer, 500, 50);
   gameFrame++;
-  requestAnimationFrame(animate);
+  animationId = requestAnimationFrame(animate);
 }
 
-animate();
+function startTime() {
+  timer--;
+  if (timer <= 0) { 
+    cancelAnimationFrame(animationId);
+    modal.style.display = 'flex';
+    timer = 61;
+    scoreDisplay.innerHTML = score;
+    score = 0;
+  } else {
+    setTimeout(startTime, 1000);
+  }
+}
