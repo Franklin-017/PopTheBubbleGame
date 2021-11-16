@@ -156,11 +156,16 @@ function animate() {
 
 function startTime() {
   timer--;
-  if (timer <= 0) { 
+  if (timer < 0) { 
     cancelAnimationFrame(animationId);
     modal.style.display = 'flex';
     timer = 61;
     scoreDisplay.innerHTML = score;
+    document.getElementById('points').innerHTML = 'POINTS';
+    document.getElementById('instructions').style.display = 'none';
+    if (score !== 0) {
+      startButton.innerHTML = 'Try Again';
+    }
     score = 0;
   } else {
     setTimeout(startTime, 1000);

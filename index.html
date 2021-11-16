@@ -11,8 +11,17 @@
 <body>
   <div class="fixed inset-0 flex items-center justify-center" id="modal">
     <div class="bg-white max-w-md w-full p-6 text-center">
-      <h1 class="text-4xl font-bold leading-none" id="score">0</h1>
-      <p class="text-sm test-gray-700 mb-4">Points</p>
+      <div id="instructions">
+        <h1 class="font-bold">INSTRUCTIONS</h1>
+        <ol class="list-inside text-left list-decimal">
+          <li>Use mouse button to move to specific place.</li>
+          <li>Click in the direction of bubble to pop it.</li>
+          <li>The score will calculate based on bubbles speed.</li>
+          <li>The game will end in 1 min.</li>
+        </ol>
+      </div>
+      <h1 class="text-4xl font-bold leading-none" id="score"></h1>
+      <p class="text-sm test-gray-700 mb-4" id="points"></p>
       <div>
         <button class="bg-blue-500 test-white w-full py-3 rounded-full text-sm" id="startGameBtn">Start Game</button>
       </div>
